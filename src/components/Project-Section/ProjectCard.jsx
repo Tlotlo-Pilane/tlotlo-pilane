@@ -112,7 +112,7 @@ const ProjectCard = ({ title, description, techStack, image, link, githublink, r
                 </button>
  */}
                 {/* GitHub Icon Button */}
-                {githublink && (
+{/*                 {githublink && (
                   <button
                     onClick={() => window.open(githublink, "_blank")}
                     aria-label="View on GitHub"
@@ -120,7 +120,7 @@ const ProjectCard = ({ title, description, techStack, image, link, githublink, r
                   >
                     <FaGithub />
                   </button>
-                )}
+                )} */}
               </div>
             </div>
           </motion.div>
