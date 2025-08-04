@@ -24,13 +24,13 @@ const Loader = () => {
             {/* Light Theme */}
             <img
               src="/vnct-tag-dark-font.png"
-              alt="VNCT logo"
+              alt="Pilane logo"
               className="w-48 h-auto block dark:hidden"
             />
             {/* Dark Theme */}
             <img
               src="/vnct-tag-white-font.png"
-              alt="VNCT logo"
+              alt="Pilane logo"
               className="w-48 h-auto hidden dark:block"
             />
           </motion.div>
