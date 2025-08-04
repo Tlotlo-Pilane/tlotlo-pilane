@@ -11,7 +11,7 @@ const Hero = () => {
   const rotatingItems = [
     "Web Developer.",
     "UI/UX Designer.",
-    "Video Editor.",
+    "App Developer.",
   ];
 
   // Rotating text every 3 seconds
