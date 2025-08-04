@@ -104,13 +104,13 @@ const ProjectCard = ({ title, description, techStack, image, link, githublink, r
                 ))}
               </div>
               <div className="mt-6 flex items-center gap-3 flex-wrap justify-center">
-                <button
+{/*                 <button
                   onClick={() => window.open(link, "_blank")}
                   className="px-6 py-1 rounded-full font-semibold text-black dark:text-white border border-bg-neutral-100 dark:border-white transition duration-300 hover:bg-[#4CA771] hover:text-white hover:border-[#4CA771] inline-flex items-center"
                 >
                   Take a Look
                 </button>
-
+ */}
                 {/* GitHub Icon Button */}
                 {githublink && (
                   <button
