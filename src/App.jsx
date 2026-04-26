@@ -1,75 +1,54 @@
 /*
- * © 2025 Tlotlo Pilane. All rights reserved.
- * Unauthorized copying or redistribution of this file, via any medium, is strictly prohibited.
- * Written consent from the author is required.
+ * (c) 2026 Tlotlo Pilane. All rights reserved.
  */
 
-import { usePreferredTheme } from "./hooks/usePreferredTheme";
+import { AnimatePresence } from "framer-motion";
+import { Analytics } from "@vercel/analytics/react";
+
 import { useLoading } from "./hooks/useLoading";
+import { usePreferredTheme } from "./hooks/usePreferredTheme";
 import { useShowParticles } from "./hooks/useShowParticles";
 
 import Loader from "./Loader";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero-Section/Hero";
-import ParticlesBackground from "./components/Hero-Section/ParticlesBackground";
 import Projects from "./components/Project-Section/Projects";
+import Skills from "./components/Skills-Section/Skills";
+import Experience from "./components/Experience-Section/Experience";
+import Services from "./components/Services-Section/Services";
 import About from "./components/About-Section/About";
-import Education from "./components/Education-Section/Education";
 import Contact from "./components/Contact-Section/Contact";
-
-import { Analytics } from '@vercel/analytics/react';
-
-import { AnimatePresence, motion } from "framer-motion";
 
 function App() {
   const [theme, setTheme] = usePreferredTheme();
-  const loading = useLoading(2000);
-  const showParticles = useShowParticles("home");
+  const loading = useLoading(1200);
+  const showParticles = useShowParticles("home", !loading);
 
   return (
     <AnimatePresence mode="wait">
       {loading ? (
         <Loader key="loader" />
       ) : (
-        <div className="relative overflow-x-hidden">
-          <Navbar />
-          {showParticles && <ParticlesBackground />}
-          <Hero />
+        <div className="relative overflow-x-hidden bg-gray-100 text-black transition-colors duration-500 dark:bg-black dark:text-white">
+          <Navbar theme={theme} setTheme={setTheme} />
 
-          {/* Motivational Quote Banner */}
-          <div className="py-16 px-4 sm:px-6 md:px-12 lg:px-20 bg-[c8c8c9] dark:bg-[#060606] text-center transition-colors duration-500">
-            <motion.h2
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, amount: 0.1 }}
-              transition={{ duration: 1.2, ease: "easeOut" }}
-              className="text-3xl sm:text-3xl md:text-4xl lg:text-5xl font-extrabold uppercase leading-tight drop-shadow-sm tracking-tight"
-            >
-              <span className="block text-black dark:text-white">
-                "Stay genuine, tables 
-              </span>
-              <span className="block text-[#4CA771] dark:text-[#4ca771] mt-2">
-                will always turn."
-              </span>
-            </motion.h2>
-          </div>
+          <main>
+            <Hero showParticles={showParticles} theme={theme} />
+            <Services />
+            <Projects />
+            <Skills />
+            <Experience />
+            <About />
+            <Contact />
+          </main>
 
-          <Projects theme={theme} />
-          <About />
-          <Education />
-          <Contact/>
-          <div className="container mx-auto px-6 py-6">
-            <footer className="pt-4 border-t border-gray-200 dark:border-gray-800">
-              <div className="flex justify-center">
-                <p className="text-gray-600 dark:text-gray-400 text-sm text-center">
-                  © 2025 Tlotlo Pilane. All rights reserved.
-                </p>
-              </div>
-            </footer>
-          </div>
+          <footer className="border-t border-gray-200 px-6 py-8 dark:border-gray-800">
+            <p className="text-center text-sm text-gray-600 dark:text-gray-400">
+              (c) {new Date().getFullYear()} Tlotlo Pilane. All rights reserved.
+            </p>
+          </footer>
 
-            <Analytics />
-
+          <Analytics />
         </div>
       )}
     </AnimatePresence>

@@ -7,7 +7,9 @@ const Loader = () => {
         initial={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         transition={{ duration: 0.6 }}
-        className="fixed inset-0 flex items-center justify-center bg-white dark:bg-black z-50"
+        className="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-black"
+        role="status"
+        aria-label="Loading portfolio content"
       >
         <div className="flex items-center space-x-3">
           {/* Bouncing Logo */}
@@ -24,13 +26,13 @@ const Loader = () => {
             {/* Light Theme */}
             <img
               src="/vnct-tag-dark-font.png"
-              alt="Pilane logo"
+              alt="Pilane wordmark logo in dark text"
               className="w-48 h-auto block dark:hidden"
             />
             {/* Dark Theme */}
             <img
               src="/vnct-tag-white-font.png"
-              alt="Pilane logo"
+              alt="Pilane wordmark logo in white text"
               className="w-48 h-auto hidden dark:block"
             />
           </motion.div>

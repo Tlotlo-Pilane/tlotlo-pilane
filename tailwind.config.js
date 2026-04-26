@@ -1,16 +1,13 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  darkMode: 'class',
-  content: [
-    "./index.html",
-    "./src/**/*.{js,jsx}",
-  ],
+  darkMode: "class",
+  content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
     extend: {
       fontFamily: {
-        roboto:['Roboto', 'sans-serif'],
+        sans: ["Manrope", "sans-serif"],
       },
     },
   },
   plugins: [],
-}
+};

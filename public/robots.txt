@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://tlotlo-pilane.vercel.app/sitemap.xml

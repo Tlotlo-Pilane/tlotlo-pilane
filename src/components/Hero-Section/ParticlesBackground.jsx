@@ -1,74 +1,90 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Particles from "react-tsparticles";
 import { loadSlim } from "tsparticles-slim";
 
-const ParticlesBackground = () => {
-  const [isDark, setIsDark] = useState(false);
+const ParticlesBackground = ({ id = "hero-particles", theme = "light" }) => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   const particlesInit = useCallback(async (engine) => {
     await loadSlim(engine);
   }, []);
 
-  // Detect theme mode
   useEffect(() => {
-    const checkTheme = () => {
-      setIsDark(document.documentElement.classList.contains("dark"));
+    const mobileQuery = window.matchMedia("(max-width: 768px)");
+    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+    const applyPreferences = () => {
+      setIsMobile(mobileQuery.matches);
+      setPrefersReducedMotion(motionQuery.matches);
     };
 
-    checkTheme();
-    const observer = new MutationObserver(checkTheme);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    applyPreferences();
+    mobileQuery.addEventListener("change", applyPreferences);
+    motionQuery.addEventListener("change", applyPreferences);
 
-    return () => observer.disconnect();
+    return () => {
+      mobileQuery.removeEventListener("change", applyPreferences);
+      motionQuery.removeEventListener("change", applyPreferences);
+    };
   }, []);
 
-  const particleColor = isDark ? "#888888" : "#004030"; // dark accent or light primary
+  const options = useMemo(() => {
+    const particleColor = theme === "dark" ? "#4a4a4a" : "#0f5132";
+    const particleCount = isMobile ? 20 : 34;
+
+    return {
+      fullScreen: { enable: false },
+      background: {
+        color: { value: "transparent" },
+      },
+      fpsLimit: isMobile ? 36 : 50,
+      interactivity: {
+        events: {
+          onHover: { enable: !isMobile, mode: "repulse" },
+          resize: true,
+        },
+        modes: {
+          repulse: { distance: 70, duration: 0.25 },
+        },
+      },
+      particles: {
+        color: { value: particleColor },
+        links: {
+          color: particleColor,
+          distance: isMobile ? 120 : 135,
+          enable: true,
+          opacity: 0.35,
+          width: 1,
+        },
+        move: {
+          direction: "none",
+          enable: true,
+          outModes: { default: "bounce" },
+          speed: isMobile ? 0.4 : 0.7,
+        },
+        number: {
+          density: { enable: true, area: 820 },
+          value: particleCount,
+        },
+        opacity: { value: 0.35 },
+        shape: { type: "circle" },
+        size: { value: { min: 1, max: isMobile ? 3 : 4 } },
+      },
+      detectRetina: true,
+    };
+  }, [isMobile, theme]);
+
+  if (prefersReducedMotion) {
+    return null;
+  }
 
   return (
     <Particles
-      id="tsparticles"
+      id={id}
       init={particlesInit}
-      className="absolute inset-0 -z-10 pointer-events-none"
-      options={{
-        fullScreen: { enable: false },
-        background: {
-          color: { value: "transparent" }
-        },
-        fpsLimit: 60,
-        interactivity: {
-          events: {
-            onHover: { enable: true, mode: "repulse" },
-            resize: true
-          },
-          modes: {
-            repulse: { distance: 100, duration: 0.4 }
-          }
-        },
-        particles: {
-          color: { value: particleColor },
-          links: {
-            color: particleColor,
-            distance: 125,
-            enable: true,
-            opacity: 0.5,
-            width: 1
-          },
-          move: {
-            direction: "none",
-            enable: true,
-            outModes: { default: "bounce" },
-            speed: 1
-          },
-          number: {
-            density: { enable: true, area: 800 },
-            value: 40
-          },
-          opacity: { value: 0.5 },
-          shape: { type: "circle" },
-          size: { value: { min: 1, max: 5 } }
-        },
-        detectRetina: true
-      }}
+      className="pointer-events-none absolute inset-0 -z-10"
+      options={options}
     />
   );
 };

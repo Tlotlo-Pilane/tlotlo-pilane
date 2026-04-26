@@ -9,13 +9,19 @@ const ThemeToggle = ({ theme, setTheme }) => {
   return (
     <button
       onClick={toggleTheme}
-      className="w-12 h-6 rounded-full bg-gray-300 dark:bg-gray-700 flex items-center px-1 transition"
+      type="button"
+      aria-pressed={theme === "dark"}
+      className={`group relative flex h-7 w-14 items-center rounded-full px-1 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#4ca771] focus-visible:ring-offset-2 focus-visible:ring-offset-white dark:focus-visible:ring-offset-black ${
+        theme === "dark"
+          ? "justify-end bg-gray-700"
+          : "justify-start bg-gray-300"
+      }`}
       aria-label="Toggle Theme"
     >
       <motion.div
         layout
         transition={{ type: "spring", stiffness: 500, damping: 30 }}
-        className="w-5 h-5 bg-white rounded-full shadow flex items-center justify-center"
+        className="flex h-5 w-5 items-center justify-center rounded-full bg-white shadow"
       >
         <AnimatePresence mode="wait" initial={false}>
           {theme === "dark" ? (
@@ -36,7 +42,7 @@ const ThemeToggle = ({ theme, setTheme }) => {
               exit={{ opacity: 0, rotate: -90 }}
               transition={{ duration: 0.2 }}
             >
-              <Moon className="w-3 h-3 text-purple-500" />
+              <Moon className="w-3 h-3 text-slate-600" />
             </motion.div>
           )}
         </AnimatePresence>

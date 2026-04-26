@@ -11,14 +11,31 @@ const ResumeModal = ({ onClose }) => {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    const handleEscape = (event) => {
+      if (event.key === "Escape") {
+        onClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleEscape);
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("keydown", handleEscape);
+    };
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 bg-black/70 backdrop-blur-sm flex items-center justify-center z-50 px-4 pt-20">
+    <div
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 pt-20 backdrop-blur-sm"
+      role="presentation"
+    >
       <div
         ref={modalRef}
-        className="bg-gray-100 dark:bg-black text-black dark:text-white rounded-xl shadow-2xl p-6 w-full max-w-4xl max-h-[90vh] overflow-y-auto border dark:border-gray-700"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Resume preview"
+        className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-xl border bg-gray-100 p-6 text-black shadow-2xl dark:border-gray-700 dark:bg-black dark:text-white"
       >
         {/* Header with Action Buttons */}
         <div className="flex justify-between items-center mb-4">
@@ -46,8 +63,8 @@ const ResumeModal = ({ onClose }) => {
           title="Resume"
           className="w-full h-[70vh] border rounded"
           onError={() => {
-            window.open("/TLOTLO_PILANE - CV.pdf", "_blank");
-            onClose(); // close the modal if fallback triggers
+            window.open("/TLOTLO_PILANE - CV.pdf", "_blank", "noopener,noreferrer");
+            onClose();
           }}
         ></iframe>
 
